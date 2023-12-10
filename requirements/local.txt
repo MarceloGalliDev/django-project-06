@@ -1,0 +1,8 @@
+# para instalar use pip install -r requirements/local.txt
+
+-r base.txt
+
+psycopg2-binary==2.9.9
+flake8==6.1.0
+black==23.11.0
+isort==5.13.0
