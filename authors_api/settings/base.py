@@ -1,25 +1,32 @@
+"""file of config the base configuration"""
+
 from pathlib import Path
+import environ
+
+env = environ.Env()
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 
+ROOT_APP = ROOT_DIR / "core_apps"
 
-SECRET_KEY = 'django-insecure-plqe=j(8&y5nrq-ti4)y95d74$+fjkw!5vz^5sd++xgxjhwq_3'
+DEBUG = env.bool("DJANGO_DEBUG", False)
 
-
-DEBUG = True
-
-
-ALLOWED_HOSTS: List[str] = []
-
-
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+]
+
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'django_filters',
+    'corsheaders',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -53,9 +60,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'authors_api.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -63,9 +67,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -83,9 +84,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -95,12 +93,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
