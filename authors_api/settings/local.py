@@ -1,10 +1,14 @@
+# pylint: disable=all
+
 """file of local configs"""
+from .base import *  # noqa
+from .base import env  # noqa
 
-
-SECRET_KEY = 'django-insecure-plqe=j(8&y5nrq-ti4)y95d74$+fjkw!5vz^5sd++xgxjhwq_3'
-
+SECRET_KEY = env(
+    'DJANGO_SECRET_KEY',
+    default='0YMAJpQvgM85mB7cjzLMCw3VEmZnekDAFtnOAc1ZTafKRKhoRQAACfubOmhVGwNZEUI',
+)
 
 DEBUG = True
 
-
-ALLOWED_HOSTS: list[str] = []
+CSRF_TRUSTED_ORIGINS: list[str] = ["http://localhost:8080"]
