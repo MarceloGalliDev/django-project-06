@@ -41,9 +41,9 @@ THIRD_PARTY_APPS = [
 ]
 
 
-LOCAL_APPS = [
+LOCAL_APPS: list[str] = [
     'core_apps.profiles',
-    'core_apps.commom',
+    'core_apps.common',
     'core_apps.users',
 ]
 
