@@ -10,3 +10,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libpq-dev
 
 COPY ./requirements .
+
+RUN pip wheel --wheel-dir /usr/src/app/wheels \
+    -r ${BUILD_ENVIRONMENT}.txt
