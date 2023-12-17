@@ -8,5 +8,5 @@
     exportando plataforma de uso no docker:
         export DOCKER_DEFAULT_PLATAFORM=linux/arm64
     
-    subindo arquivo yml:
+    subindo arquivo yml para criar imagem docker:
         docker compose -f local.yml up --build -d --remove-orphans
