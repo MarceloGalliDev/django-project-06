@@ -10,3 +10,6 @@
     
     subindo arquivo yml para criar imagem docker:
         docker compose -f local.yml up --build -d --remove-orphans
+    
+    verificando logs
+        docker compose -f local.yml logs {name docker}

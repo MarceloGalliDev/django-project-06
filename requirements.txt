@@ -8,6 +8,7 @@ certifi==2023.11.17
 cffi==1.16.0
 charset-normalizer==3.3.2
 click==8.1.7
+debugpy==1.8.0
 distlib==0.3.7
 Django==5.0
 django-autoslug==1.9.9
