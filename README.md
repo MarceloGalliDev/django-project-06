@@ -13,3 +13,6 @@
     
     verificando logs
         docker compose -f local.yml logs {name docker}
+    
+    inspecionando volumes do docker
+        docker volume inspect src_local_postgres_data
