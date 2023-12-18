@@ -16,3 +16,6 @@
     
     inspecionando volumes do docker
         docker volume inspect src_local_postgres_data
+
+# Arquivo .sh
+    Executamos scripts com usando shebang, e incluimos os comandos para realizar os backups
