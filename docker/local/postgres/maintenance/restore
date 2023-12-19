@@ -36,3 +36,12 @@ export PGDATABASE="${POSTGRES_DB}"
 
 message_info "Dropping the database..."
 
+dropdb "${PGDATABASE}"
+
+message_info "Creating a new database..."
+
+createdb --owner=="${POSTGRES_USER}"
+
+message_info "Applying the backup to the new database..."
+
+gunzip -c "${backup_filename}" | psql "${POSTGRES_DB}"
