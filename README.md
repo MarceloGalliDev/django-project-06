@@ -17,5 +17,8 @@
     inspecionando volumes do docker
         docker volume inspect src_local_postgres_data
 
+    desconectando docker
+        docker compose -f local.yml down
+
 # Arquivo .sh
     Executamos scripts com usando shebang, e incluimos os comandos para realizar os backups

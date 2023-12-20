@@ -14,7 +14,7 @@ if [[ -z ${1+x} ]]; then
     exit 1
 fi
 
-backup_filename="${BACKUP_FILE_PREFIX}/${1}"
+backup_filename="${BACKUP_DIR_PATH}/${1}"
 
 if [[ ! -f "${backup_filename}" ]]; then
     message_error "No backup with the specified backup  filename was found. Check out the 'backups' maintenance script output to see if there in one and try again."
@@ -45,3 +45,5 @@ createdb --owner=="${POSTGRES_USER}"
 message_info "Applying the backup to the new database..."
 
 gunzip -c "${backup_filename}" | psql "${POSTGRES_DB}"
+
+message_success "The '${POSTGRES_DB}' database has been restored successfully from the '${backup_filename}' backup"
