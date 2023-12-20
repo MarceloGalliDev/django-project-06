@@ -36,7 +36,7 @@ export PGDATABASE="${POSTGRES_DB}"
 
 message_info "Dropping the database..."
 
-dropdb "${PGDATABASE}"
+dropdb "${POSTGRES_DB}"
 
 message_info "Creating a new database..."
 
