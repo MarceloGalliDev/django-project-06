@@ -19,6 +19,9 @@
 
     desconectando docker
         docker compose -f local.yml down
+    
+    executando scripts .sh
+        docker compose -f local.yml exec postgres backup
 
 # Arquivo .sh
     Executamos scripts com usando shebang, e incluimos os comandos para realizar os backups
