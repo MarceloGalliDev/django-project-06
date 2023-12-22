@@ -1,5 +1,8 @@
 # using makefile, in terminal write make {comand}
 
+# Define a variable for the root directory name
+ROOT_DIR := $(shell basename "$$PWD")
+
 build:
 	docker compose -f local.yml up --build -d --remove-orphans
 
@@ -40,9 +43,9 @@ down-v:
 	docker compose -f local.yml down -v
 
 volume:
-	docker volume inspect django-project-06_local_postgres_data
+	docker volume inspect $(ROOT_DIR)_local_postgres_data
 
-authors_db: 
+authors-db: 
 	docker compose -f local.yml exec postgres psql --username=marcelogalli --dbname=authors-live
 
 flake8:

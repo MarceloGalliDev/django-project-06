@@ -25,3 +25,16 @@
 
 # Arquivo .sh
     Executamos scripts com usando shebang, e incluimos os comandos para realizar os backups
+
+# command postgres
+    listando databases
+    \list
+
+    conectando db
+    \connect
+
+    listando tabelas do db
+    \dt
+
+    fechar db
+    \q
