@@ -28,16 +28,16 @@ list-volumes:
 	docker volume ls
 
 makemigrations:
-	docker compose -f local.yml run -rm api python manage.py makemigrations
+	docker compose -f local.yml run --rm api python manage.py makemigrations
 
 migrate:
-	docker compose -f local.yml run -rm api python manage.py migrate
+	docker compose -f local.yml run --rm api python manage.py migrate
 
 collectstatic:
-	docker compose -f local.yml run -rm api python manage.py collectstatic --no-input --clear
+	docker compose -f local.yml run --rm api python manage.py collectstatic --no-input --clear
 
 superuser:
-	docker compose -f local.yml run -rm api python manage.py createsuperuser
+	docker compose -f local.yml run --rm api python manage.py createsuperuser
 
 down-v:
 	docker compose -f local.yml down -v
