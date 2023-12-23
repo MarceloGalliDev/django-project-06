@@ -9,15 +9,15 @@ from .managers import CustomUserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    pkid = models.BigIntegerField(primary_key=True, editable=False),
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    pkid = models.BigIntegerField(primary_key=True, editable=False, default=1)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     first_name = models.CharField(max_length=50, verbose_name="first name")
     last_name = models.CharField(max_length=50, verbose_name="last name")
     email = models.EmailField(max_length=50, verbose_name=_("Email address"), db_index=True, unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
-    data_joined = models.DateTimeField(default=timezone.now)
+    date_joined = models.DateTimeField(default=timezone.now)  # Corrected field name
 
     USERNAME_FIELD = "email"
 
