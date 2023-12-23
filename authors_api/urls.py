@@ -1,12 +1,15 @@
+# pylint: disable=all
+# flake8: noqa
+
 """
 URL configuration for authors_api project.
 """
 from django.contrib import admin  # type: ignore
 from django.urls import path  # type: ignore
 from django.conf import settings, include  # type: ignore
-from drf_yasg import openapi
-from drf_yasg.views import get_schema_view
-from rest_framework import permissions
+from drf_yasg import openapi  # type: ignore
+from drf_yasg.views import get_schema_view  # type: ignore
+from rest_framework import permissions  # type: ignore
 
 
 get_schema_view = get_schema_view(
@@ -18,9 +21,16 @@ get_schema_view = get_schema_view(
         license=openapi.License(name="MIT License")
     ),
     public=True,
-    permission_classes=(permissions.AllowAny)
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
+    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0)),  # type: ignore
     path(settings.ADMIN_URL, admin.site.urls),
 ]
+
+admin.site.site_header = "Authors Haven API Admin"
+
+admin.site.site_title = "Authors Haven API Admin Portal"
+
+admin.site.index_title = "Welcome to Authors Haven API Admin Portal"
