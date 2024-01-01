@@ -5,10 +5,13 @@ FROM python:${PYTHON_VERSION} as python
 FROM python as python-build-stage
 ARG BUILD_ENVIRONMENT=local
 
+# o uso do RUN é para executar comandos dentro do container
+# o uso do -y é para evitar a pergunta se deseja instalar, ele ja da YES direto
 RUN apt-get update && apt-get install --no-install-recommends -y \
    build-essential \
    libpq-dev 
 
+# o uso do COPY é usado como copia do dado local para o container
 COPY ./requirements .
 
 RUN pip wheel --wheel-dir /usr/src/app/wheels \
@@ -40,6 +43,7 @@ COPY --from=python-build-stage /usr/src/app/wheels /wheels/
 RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
    && rm -rf /wheels/
 
+# aqui copiamos o script entrypoint depois executamos com chmod para permissoes
 COPY ./docker/local/django/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
@@ -59,3 +63,6 @@ RUN chmod +x /start
 COPY . ${APP_HOME}
 
 ENTRYPOINT ["/entrypoint"]
+
+# lembrando que o uso desse arquivo sempre segue do topo para o bot, \ 
+# por isso a necessidade de verificar as permissoes antes de rodar
