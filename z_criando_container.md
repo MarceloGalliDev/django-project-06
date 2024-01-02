@@ -34,6 +34,16 @@ COMANDOS
             cp .env-example .env
         fi
 
+        - mesclar configs .yaml
+        docker compose -f {arquivo1.yaml} {arquivo2.yaml}
+
+        - em criação de volumes é possível incluirmos um :cache para agilizar a criação
+        .:home/node/app:cached
+
+        - criamos um container apartir de uma imagem base, como por exemplo uma que ja possui python com pip
+        - para baixar imagem do docker hub
+        docker pull {nome da tag}
+
 1. Select a version compatible with application
     """
     FROM {language}:{version (docker hub)}
