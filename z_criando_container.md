@@ -22,6 +22,14 @@ COMANDOS
     
 
     - DOCKER
+        - listando container
+        docker ps
+
+        - executando comandos dentro do container
+        * para abrir um terminal do container incluimos o -it
+        docker exec {nome do container} {comandos}
+        docker exec -t {nome do container} bash
+
         - para iniciar o conteiner com usuario root
         docker compose exec -u root app bash
 
@@ -43,6 +51,18 @@ COMANDOS
         - criamos um container apartir de uma imagem base, como por exemplo uma que ja possui python com pip
         - para baixar imagem do docker hub
         docker pull {nome da tag}
+
+        - nomeando a imagem criada
+        docker build -t {nome da imagem}:{nome da tag} {diretorio}
+
+        - para criar container
+        * o uso do -t é para referenciar o terminal, será utilizando em background
+        * o uso do -P é para mapear a porta do EXPOSE do docker file para minha aplicação
+        docker run -d -P {nome da imagem}:{tag}
+
+        - verificando logs do container
+        * se incluido o -f ele ficará aberto em tempo real para visualização
+        docker logs {nome do container}
 
 1. Select a version compatible with application
     """
