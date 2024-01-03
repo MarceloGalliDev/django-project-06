@@ -153,6 +153,8 @@ CORS_URLS_REGEX = r"ˆapi/.*$"
 
 AUTH_USER_MODEL = "users.User"
 
+CELERY_BROKER_URL = env("CELERY_BROKER")
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
