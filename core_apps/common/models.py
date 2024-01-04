@@ -1,3 +1,15 @@
-from django.db import models
+# pylint: disable=C0115, C0114
 
-# Create your models here.
+import uuid
+from django.db import models  # type: ignore
+
+
+class TimeStampedModel(models.Model):
+    pkid = models.BigAutoField(primary_key=True, editable=False, default=1)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+        ordering = ["-created_at", "-updated_at"]
