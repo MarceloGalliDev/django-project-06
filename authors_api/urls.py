@@ -5,7 +5,7 @@
 URL configuration for authors_api project.
 """
 from django.contrib import admin  # type: ignore
-from django.urls import path  # type: ignore
+from django.urls import path, include  # type: ignore
 from django.conf import settings  # type: ignore
 from drf_yasg import openapi  # type: ignore
 from drf_yasg.views import get_schema_view  # type: ignore
@@ -26,6 +26,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0)),  # type: ignore
+    path('accounts/', include('allauth.urls')),
     path(settings.ADMIN_URL, admin.site.urls),
 ]
 
