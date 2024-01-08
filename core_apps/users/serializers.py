@@ -58,7 +58,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         # subscrevemos o cleaned_data
         self.cleaned_data = self.get_cleaned_data()
         # salvamos o user ja subscrito pelo get_cleaned_data
-        user = adapter.save_user(self, request, user)
+        user = adapter.save_user(request, user, self)
         user.save()
 
         setup_user_email(request, user, [])
