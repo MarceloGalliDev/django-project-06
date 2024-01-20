@@ -47,3 +47,13 @@ class ArticleSerializer(serializers.ModelSerializer):
         then = obj.created_at
         formatted_date = then.strftime("%m/%d/%Y, %H:%M:%S")
         return formatted_date
+
+    def create(self, validated_data):
+        tags = validated_data.pop("tags")
+        article = Article.objects.create(**validated_data)
+        article.tags.set(tags)
+        return article
+
+    def update(self, instance, validated_data):
+        instance.author = validated_data.get("author", instance.author)
+        instance.title = validated_data.get("author", instance.title)
