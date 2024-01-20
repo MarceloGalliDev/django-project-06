@@ -1,0 +1,49 @@
+# pylint: disable = C0116, C0114, C0115, E1101
+
+from rest_framework import serializers
+from core_apps.articles.models import Article, ArticleView
+from core_apps.profiles.serializers import ProfileSerializer
+
+
+class TagListField(serializers.Field):
+    def to_representation(self, value):
+        return [tag.name for tag in value.all()]
+
+    def to_internal_value(self, data):
+        if not isinstance(data, list):
+            raise serializers.ValidationError("Expected a list of tags")
+
+        tag_objects = []
+        for tag_name in data:
+            tag_name = tag_name.strip()
+
+            if not tag_name:
+                continue
+            tag_objects.append(tag_name)
+        return tag_objects
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    author_info = ProfileSerializer(source="author.profile", read_only=True)
+    banner_image = serializers.SerializerMethodField()
+    estimated_reading_time = serializers.ReadOnlyField()
+    tags = TagListField()
+    views = serializers.SerializerMethodField()
+    created_at = serializers.SerializerMethodField()
+    updated_at = serializers.SerializerMethodField()
+
+    def get_banner_image(self, obj):
+        return obj.banner_image.url
+
+    def get_views(self, obj):
+        return ArticleView.objects.filter(article=obj).count()
+
+    def get_created_at(self, obj):
+        now = obj.created_at
+        formatted_date = now.strftime("%m/%d/%Y, %H:%M:%S")
+        return formatted_date
+
+    def get_updated_at(self, obj):
+        then = obj.created_at
+        formatted_date = then.strftime("%m/%d/%Y, %H:%M:%S")
+        return formatted_date
