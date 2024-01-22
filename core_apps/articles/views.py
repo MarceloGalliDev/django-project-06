@@ -79,7 +79,10 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
-        instance = self.get_instance()
+        try:
+            instance = self.get_object()
+        except Http404:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         self.perform_destroy(instance)
         return Response(
             {"message": "Article deleted successfully"}, status=status.HTTP_200_OK

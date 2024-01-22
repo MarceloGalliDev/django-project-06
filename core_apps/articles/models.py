@@ -33,6 +33,16 @@ class Article(TimeStampedModel):
     def view_count(self):
         return self.articles_views.count()
 
+    def average_rating(self):
+        # here we have the connection with related_name
+        ratings = self.ratings.all()
+
+        if ratings.count() > 0:
+            total_rating = sum(rating.rating for rating in ratings)
+            avarege_rating = total_rating / ratings.count()
+            return round(avarege_rating, 2)
+        return None
+
 
 class ArticleView(TimeStampedModel):
     article = models.ForeignKey(
