@@ -69,6 +69,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
         instance.save()
 
+        return instance
+
     class Meta:
         model = Article
         fields = [

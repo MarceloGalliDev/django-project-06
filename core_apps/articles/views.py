@@ -13,6 +13,8 @@ from .filters import ArticleFilter
 from .pagination import ArticlePagination
 from .renderers import ArticleJsonRenderer, ArticlesJsonRenderer
 from .permissions import IsOwnerOrReadOnly
+from django.core.files.storage import default_storage
+from rest_framework.parsers import MultiPartParser, FormParser
 
 User = get_user_model()
 
@@ -47,9 +49,18 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
     lookup_field = "id"
     renderer_classes = [ArticleJsonRenderer]
+    parser_classes = [MultiPartParser, FormParser]
 
     def perform_update(self, serializer):
-        serializer.save(author=self.request.user)
+        instance = serializer.save(author=self.request.user)
+        if "banner_image" in self.request.FILES:
+            if (
+                instance.banner_image
+                and instance.banner_image.name != "/profile_default.png"
+            ):
+                default_storage.delete(instance.banner_image.path)
+            instance.banner_image = self.request.FILES["banner_image"]
+            instance.save()
 
     def retrieve(self, request, *args, **kwargs):
         try:
@@ -66,3 +77,10 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         )
 
         return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_instance()
+        self.perform_destroy(instance)
+        return Response(
+            {"message": "Article deleted successfully"}, status=status.HTTP_200_OK
+        )
