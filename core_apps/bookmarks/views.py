@@ -1,10 +1,12 @@
-# pylint: disable=W0101, C0114, C0115, E1101, W0707
+# pylint: disable=W0101, C0114, C0115, E1101, W0707, C0412
 
-from rest_framework import generics, permissions
+from uuid import UUID
+from rest_framework.response import Response
+from rest_framework import generics, permissions, status
+from django.http import Http404
 from django.db import IntegrityError
 from rest_framework.exceptions import ValidationError, NotFound
 from core_apps.articles.models import Article
-from uuid import UUID
 from .models import Bookmark
 from .serializers import BookmarkSerializer
 
@@ -41,12 +43,12 @@ class BookmarkDestroyView(generics.DestroyAPIView):
         article_id = self.kwargs.get("article_id")
 
         try:
-            UUID(article_id, version=4)
+            UUID(str(article_id), version=4)
         except ValueError:
             raise ValidationError("Invalid article_id provided.")
 
         try:
-            bookmark = Bookmark.objects.get(user=user, article_id=article_id)
+            bookmark = Bookmark.objects.get(user=user, article__id=article_id)
         except Bookmark.DoesNotExist:
             raise NotFound("Bookmark not found or it doesn't belong to you.")
 
@@ -57,3 +59,13 @@ class BookmarkDestroyView(generics.DestroyAPIView):
         if instance.user != user:
             raise ValidationError("You cannot delete a bookmark that is not yours.")
         instance.delete()
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+        except Http404:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        self.perform_destroy(instance)
+        return Response(
+            {"message": "Bookmarks deleted successfully"}, status=status.HTTP_200_OK
+        )
