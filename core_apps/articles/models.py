@@ -3,13 +3,25 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from autoslug import AutoSlugField
-from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
 from core_apps.common.models import TimeStampedModel
 from .read_time_engine import ArticleReadTimeEngine
+from django.utils.translation import gettext_lazy as _
 
 
 User = get_user_model()
+
+
+class Clap(TimeStampedModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    article = models.ForeignKey("Article", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["user", "article"]
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user.first_name} clapped {self.article.title}"
 
 
 class Article(TimeStampedModel):
@@ -22,6 +34,8 @@ class Article(TimeStampedModel):
         verbose_name=_("banner_image"), default="/profile_default.png"
     )
     tags = TaggableManager()
+
+    claps = models.ManyToManyField(User, through=Clap, related_name="clapped_articles")
 
     def __str__(self):
         return f"{self.author.first_name}`s article"
