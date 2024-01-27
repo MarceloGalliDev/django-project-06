@@ -12,7 +12,7 @@ class ResponseSerializer(serializers.ModelSerializer):
             "id",
             "user_first_name",
             "article_title",
-            "parent_response",
+            "parents_response",
             "content",
             "created_at",
         ]

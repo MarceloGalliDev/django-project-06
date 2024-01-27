@@ -18,7 +18,7 @@ class ResponseListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         article_id = self.kwargs.get("article_id")
-        return Response.objects.filter(article__id=article_id, parent_response=None)
+        return Response.objects.filter(article__id=article_id, parents_response=None)
 
     def perform_create(self, serializer):
         user = self.request.user

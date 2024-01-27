@@ -112,6 +112,8 @@ class ArticleSerializer(serializers.ModelSerializer):
             "average_rating",
             "bookmarks",
             "bookmarks_count",
+            "responses",
+            "responses_count",
             "claps_count",
             "created_at",
             "updated_at",
