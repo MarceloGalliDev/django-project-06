@@ -1,6 +1,15 @@
 version: "3.9"
 
 services:
+  es:
+    image: elasticsearch:8.12.0
+    container_name: es
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    networks:
+      - authors-api
   api:
     build:
       context: .
@@ -26,6 +35,7 @@ services:
       - postgres
       - mailhog
       - redis
+      - es
     command: /start
     networks:
       - authors-api
