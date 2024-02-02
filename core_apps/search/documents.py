@@ -26,10 +26,10 @@ class ArticleDocument(Document):
 
     # and here we have the custom fields of the article.model
     def prepare_author_first_name(self, instance):
-        return instance.author_first_name
+        return instance.author.first_name
 
     def prepare_author_last_name(self, instance):
-        return instance.author_last_name
+        return instance.author.last_name
 
     def prepare_tags(self, instance):
         return [tag.name for tag in instance.tags.all()]
