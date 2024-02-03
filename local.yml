@@ -4,8 +4,13 @@ services:
   es:
     image: elasticsearch:8.12.0
     container_name: es
+    env_file:
+      - ./.envs/.local/.django
     environment:
       - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - xpack.license.self_generated.type=${LICENSE}
     ports:
       - "9200:9200"
     networks:
