@@ -1,12 +1,12 @@
 # pylint: disable= C0115, C0301, C0114, W0201, W0223
 
 from dj_rest_auth.registration.serializers import RegisterSerializer  # type: ignore
-from allauth.account.adapter import get_adapter   # type: ignore
-from allauth.account.utils import setup_user_email    # type: ignore
-from rest_framework import serializers    # type: ignore
-from django.contrib.auth import get_user_model    # type: ignore
+from allauth.account.adapter import get_adapter  # type: ignore
+from allauth.account.utils import setup_user_email  # type: ignore
+from rest_framework import serializers  # type: ignore
+from django.contrib.auth import get_user_model  # type: ignore
 from django_countries.serializer_fields import CountryField
-from phonenumber_field.serializerfields import PhoneNumberField    # type: ignore
+from phonenumber_field.serializerfields import PhoneNumberField  # type: ignore
 
 
 User = get_user_model()
@@ -22,7 +22,15 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "id", "email", "first_name", "last_name", "gender", "phone_number", "profile_photo", "country", "city"
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "gender",
+            "phone_number",
+            "profile_photo",
+            "country",
+            "city",
         ]
 
     def to_representation(self, instance):

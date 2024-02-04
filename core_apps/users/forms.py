@@ -18,9 +18,7 @@ class UserCreationForm(admin_forms.UserCreationForm):
         model = User
         fields = ("first_name", "last_name", "email")
 
-    error_messages = {
-        "duplicate_email": "A user with this email already exists."
-    }
+    error_messages = {"duplicate_email": "A user with this email already exists."}
 
     def clean_email(self):
         email = self.cleaned_data["email"]

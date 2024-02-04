@@ -2,9 +2,9 @@
 
 import uuid
 from django.db import models  # type: ignore
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin    # type: ignore
-from django.utils import timezone    # type: ignore
-from django.utils.translation import gettext_lazy as _    # type: ignore
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin  # type: ignore
+from django.utils import timezone  # type: ignore
+from django.utils.translation import gettext_lazy as _  # type: ignore
 from .managers import CustomUserManager
 
 
@@ -13,7 +13,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     first_name = models.CharField(max_length=50, verbose_name="first name")
     last_name = models.CharField(max_length=50, verbose_name="last name")
-    email = models.EmailField(max_length=50, verbose_name=_("Email address"), db_index=True, unique=True)
+    email = models.EmailField(
+        max_length=50, verbose_name=_("Email address"), db_index=True, unique=True
+    )
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 

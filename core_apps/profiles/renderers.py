@@ -5,11 +5,11 @@ from rest_framework.renderers import JSONRenderer  # type: ignore
 
 
 class ProfileJsonRenderer(JSONRenderer):
-    charset = 'utf-8'
+    charset = "utf-8"
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
         status_code = renderer_context["response"].status_code
-        errors = data.get('Errors', None)
+        errors = data.get("Errors", None)
 
         if errors is not None:
             return super(ProfileJsonRenderer, self).render(data)
@@ -17,11 +17,11 @@ class ProfileJsonRenderer(JSONRenderer):
 
 
 class ProfilesJsonRenderer(JSONRenderer):
-    charset = 'utf-8'
+    charset = "utf-8"
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
         status_code = renderer_context["response"].status_code
-        errors = data.get('Errors', None)
+        errors = data.get("Errors", None)
 
         if errors is not None:
             return super(ProfilesJsonRenderer, self).render(data)

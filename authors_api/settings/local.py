@@ -5,8 +5,8 @@ from .base import *  # noqa
 from .base import env  # noqa
 
 SECRET_KEY = env(
-    'DJANGO_SECRET_KEY',
-    default='0YMAJpQvgM85mB7cjzLMCw3VEmZnekDAFtnOAc1ZTafKRKhoRQAACfubOmhVGwNZEUI',
+    "DJANGO_SECRET_KEY",
+    default="0YMAJpQvgM85mB7cjzLMCw3VEmZnekDAFtnOAc1ZTafKRKhoRQAACfubOmhVGwNZEUI",
 )
 
 DEBUG = True
