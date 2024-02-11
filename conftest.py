@@ -1,18 +1,36 @@
+from urllib import request  # noqa: F401
+from django import middleware  # noqa: F401
 import pytest
-from pytest_factorybot import register
+from pytest_factoryboy import register
+from django.test import RequestFactory
+from django.contrib.sessions.middleware import SessionMiddleware
+from django.contrib.auth.middleware import AuthenticationMiddleware
 from core_apps.users.tests.factories import UserFactory
 
 
 register(UserFactory)
 
 
-@pyteste.fixture
+@pytest.fixture
 def normal_user(db, user_factory):
     new_user = user_factory.create()
     return new_user
 
 
-@pyteste.fixture
+@pytest.fixture
 def super_user(db, user_factory):
     new_user = user_factory.create(is_staff=True, is_superuser=True)
     return new_user
+
+
+@pytest.fixture
+def mock_request():
+    factory = RequestFactory()
+    request = factory.get("/")
+    middleware = SessionMiddleware(lambda req: None)
+    middleware.process_request(request)
+    request.session.save()
+
+    auth_middleware = AuthenticationMiddleware(lambda req: None)
+    auth_middleware.process_request(request)
+    return request
