@@ -12,7 +12,7 @@ def test_user_creation_form_valid_data():
         "password1": "secure_password_123",
         "password2": "secure_password_123",
     }
-    form = UserCreateForm(data=data)
+    form = UserCreationForm(data=data)
     assert form.is_valid()
 
 
@@ -26,6 +26,6 @@ def test_user_creation_form_invalid_data():
         "password1": "secure_password_123",
         "password2": "secure_password_123",
     }
-    form = UserCreateForm(data=data)
+    form = UserCreationForm(data=data)
     assert not form.is_valid()
     assert "email" in form.errors

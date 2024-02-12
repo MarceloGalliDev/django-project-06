@@ -38,3 +38,9 @@
 
     fechar db
     \q
+
+# criando arquivo ssh
+    ssh-keygen
+
+# check de domain
+    whatsmydns.net

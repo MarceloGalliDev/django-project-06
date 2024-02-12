@@ -80,3 +80,6 @@ pytest-coverage-html:
 
 pip_update_packed:
 	pip list --outdated | grep -v '^\-e' | cut -d ' ' -f1 | xargs -n1 pip install -U
+
+deploy:
+	docker compose -f local.yml run --rm api python manage.py check --deploy
