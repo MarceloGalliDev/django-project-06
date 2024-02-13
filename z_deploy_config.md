@@ -91,3 +91,57 @@
    - http://portainer.domain/
    - sudo docker restart portainer
    - create shell script
+   - comment out the .envs line in the .ignore file
+   - set this line in shell terminal > export DIGITAL_OCEAN_IP_ADDRESS={VM_IP}
+   - bash docker/digital_ocean_server_deploy.sh
+     - insert the pass phrase
+   - verify in portainer.io the container
+
+11. Configurating the HTTPS in NGINX
+   - create a new proxy host
+     - add domain and www.domain
+     - Forward Hostname/IP: api (this name is in the container in the production.yml file)
+     - Port: 1998
+     - Block Common Exploits: true
+     - Custom Location > add Location
+       - define location: /api/v1/
+       - Forward Hostname/IP: api
+       - Port: 1998
+
+       - define location: /
+       - Forward Hostname/IP: api
+       - Port: 1998
+
+       - define location: /supersecretadmin
+       - Forward Hostname/IP: api
+       - Port: 1998
+       - add SSL
+         - Force SLL: true
+         - HTTP/2 SUpport: true
+   - create a new proxy hosts
+     - flower.domain.com
+     - Forward Hostname/IP: flower
+     - Port: 5555
+     - Block Common Exploits: true
+     - add SSL
+         - Force SLL: true
+         - HTTP/2 SUpport: true
+
+12. Testing in Inmsonia
+   - create a new enviroments with the domain
+
+13. Create a superuser
+   - access the root project in VM_IP /app
+   - in /app write 
+     - sudo docker compose -f production.yml exec api python manage.py createsuperuser
+
+14. Adding the new proxy host
+   - new proxy host
+      - proxymanager.domain
+      - Forward Hostname/Ip: {VM_IP}
+      - Port: 81
+      - Block Common Exploits: true
+      - SSL
+         - Force SSL: true
+         - HTTP/2 Support: true
+         - Agree terms
