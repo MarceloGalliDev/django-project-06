@@ -1,0 +1,89 @@
+version: "3.9"
+
+services:
+  es:
+    env_file:
+      - ./.envs/.production/.django
+    image: elasticsearch:8.12.0
+    container_name: es
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=m1432654425
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.license.self_generated.type=basic
+    ports:
+      - "9200:9200"
+    networks:
+      - reverseproxy_nw
+
+  api: &api
+    build:
+      context: .
+      dockerfile: ./docker/production/django/Dockerfile
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+    expose:
+      - "8000"
+      - "5678"
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    depends_on:
+      - postgres
+      - redis
+      - es
+    command: /start
+    image: authors_api
+    networks:
+      - reverseproxy_nw
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./docker/production/postgres/Dockerfile
+    image: authors_api_database
+    volumes:
+      - production_postgres_data:/var/lib/postgresql/data
+      - production_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.production/.postgres
+    networks:
+      - reverseproxy_nw
+
+  redis:
+    image: redis:7.2.3-alpine
+    networks:
+      - reverseproxy_nw
+  
+  celery_worker:
+    # aqui referenciamos o &api para reaproveitar o uso das informações
+    <<: *api
+    image: authors_api_celery_worker
+    command: /start-celeryworker
+    networks:
+      - reverseproxy_nw
+  
+  flower:
+    <<: *api
+    image: authors_api_flower
+    volume: 
+      - flower_data:/data
+    ports:
+      - "5555:5555"
+    command: /start-flower
+    networks:
+      - reverseproxy_nw
+
+networks:
+  reverseproxy_nw:
+    external: true
+
+
+volumes:
+  static_volume: {}
+  media_volume: {}
+  production_postgres_data: {}
+  production_postgres_data_backups: {}
+  flower_data: {}
