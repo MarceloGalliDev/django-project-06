@@ -1,3 +1,5 @@
+# pylint: disable=all
+
 from urllib import request  # noqa: F401
 from django import middleware  # noqa: F401
 import pytest
